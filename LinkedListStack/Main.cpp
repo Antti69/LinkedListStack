@@ -220,7 +220,7 @@ int main()
 	_CrtSetReportMode( _CRT_ASSERT,_CRTDBG_MODE_FILE );
 	_CrtSetReportFile( _CRT_ASSERT,_CRTDBG_FILE_STDERR );
 	
-	test1();
+	/*test1();
 	test2();
 	test3();
 	test4();
@@ -229,7 +229,7 @@ int main()
 	test7();
 	test8();
 	test9();
-	test10();
+	test10();*/
 
 	/////////////////////////////////////////////////////////////////////
 	// I15 homework stuff!!
