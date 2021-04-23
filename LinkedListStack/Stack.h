@@ -47,10 +47,39 @@ private:
 			delete pNext;
 			pNext = nullptr;
 		}
-	private:
+
 		int val;
 		Element* pNext = nullptr;
 	};
+	class Iterator
+	{
+	public:
+		Iterator() = default;
+		Iterator(Element* CurElement)
+			:
+			CurElement(CurElement)
+		{}
+		bool operator ==(Iterator& rhs)
+		{
+			return CurElement = rhs.CurElement;
+		}
+		bool operator !=(Iterator& rhs)
+		{
+			return CurElement != rhs.CurElement;
+		}
+		Iterator& operator ++()
+		{
+			CurElement = this->CurElement->pNext;
+			return *this;
+		}
+		int& operator *()
+		{
+			return CurElement->val;
+		}
+	private:
+		Element* CurElement = nullptr;
+	};
+
 public:
 	Stack() = default;
 	Stack( const Stack& src )
@@ -113,6 +142,13 @@ public:
 	{
 		return pTop == nullptr;
 	}
-private:
+	Iterator begin()
+	{
+		return pTop;
+	}
+	Iterator end()
+	{
+		return nullptr;
+	}
 	Element* pTop = nullptr;
 };
