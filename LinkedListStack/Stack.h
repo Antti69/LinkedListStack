@@ -1,12 +1,13 @@
 #pragma once
 
-class Stack
+template<typename T>
+class Stacks
 {
 private:
 	class Element
 	{
 	public:
-		Element( int val,Element* pNext )
+		Element( T val,Element* pNext )
 			:
 			val( val ),
 			pNext( pNext )
@@ -48,7 +49,7 @@ private:
 			pNext = nullptr;
 		}
 
-		int val;
+		T val;
 		Element* pNext = nullptr;
 	};
 	class Iterator
@@ -72,7 +73,35 @@ private:
 			CurElement = this->CurElement->pNext;
 			return *this;
 		}
-		int& operator *()
+		T& operator *()
+		{
+			return CurElement->val;
+		}
+	private:
+		Element* CurElement = nullptr;
+	};
+	class ConstIterator
+	{
+	public:
+		ConstIterator() = default;
+		ConstIterator(Element* CurElement)
+			:
+			CurElement(CurElement)
+		{}
+		bool operator ==(ConstIterator& rhs)
+		{
+			return CurElement = rhs.CurElement;
+		}
+		bool operator !=(ConstIterator& rhs)
+		{
+			return CurElement != rhs.CurElement;
+		}
+		ConstIterator& operator ++()
+		{
+			CurElement = this->CurElement->pNext;
+			return *this;
+		}
+		const T& operator *()
 		{
 			return CurElement->val;
 		}
@@ -81,12 +110,12 @@ private:
 	};
 
 public:
-	Stack() = default;
-	Stack( const Stack& src )
+	Stacks() = default;
+	Stacks( const Stacks& src )
 	{
 		*this = src;
 	}
-	Stack& operator=( const Stack& src )
+	Stacks& operator=( const Stacks& src )
 	{
 		if( &src != this )
 		{
@@ -103,7 +132,7 @@ public:
 		}
 		return *this;
 	}
-	~Stack()
+	~Stacks()
 	{
 		delete pTop;
 		pTop = nullptr;
@@ -112,11 +141,11 @@ public:
 	{
 		pTop = new Element( val,pTop );
 	}
-	int Pop()
+	T Pop()
 	{
 		if( !Empty() )
 		{
-			const int tempVal = pTop->GetVal();
+			const auto tempVal = pTop->GetVal();
 			auto pOldTop = pTop;
 			pTop = pTop->Disconnect();
 			delete pOldTop;
@@ -150,5 +179,16 @@ public:
 	{
 		return nullptr;
 	}
+	ConstIterator begin() const
+	{
+		return pTop;
+	}
+	ConstIterator end() const
+	{
+		return nullptr;
+	}
+private:
 	Element* pTop = nullptr;
 };
+
+typedef Stacks<int> Stack;
